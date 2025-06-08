@@ -1,0 +1,125 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Ciallo～(∠・ω< )⌒★">
+    <meta name="keywords" content="Ciallo～(∠・ω< )⌒★">
+    <title>Ciallo～(∠・ω< )⌒★</title>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
+    <style>
+        .shake-text {
+            font-size: 24px;
+            display: inline-block;
+        }
+
+        .shake-text span {
+            display: inline-block;
+            animation: shake 0.5s infinite, colorChange 2s infinite;
+        }
+
+        @keyframes shake {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, -1px); }
+            50% { transform: translate(1px, 1px); }
+            75% { transform: translate(-1px, 1px); }
+            100% { transform: translate(1px, -1px); }
+        }
+
+        @keyframes colorChange {
+            0% { color: red; }
+            25% { color: blue; }
+            50% { color: green; }
+            75% { color: orange; }
+            100% { color: purple; }
+        }
+    </style>
+</head>
+
+<body id="t" class="offline">
+<div id="messageBox" class="sendmessage">
+    <h1 style="text-align: center;font-family: 'Open Sans', sans-serif;">Press Space to  <span id="ciallo-text" class="shake-text">Ciallo～(∠・ω< )⌒★</span></h1>
+    <div class="niokbutton" onclick="okbuttonsend()"></div>
+</div>
+<div id="main-frame-error" class="interstitial-wrapper">
+    <div id="main-content">
+        <div class="icon icon-offline" alt=""></div>
+    </div>
+    <div id="offline-resources">
+        <img id="offline-resources-1x" src="assets/default_100_percent/100-offline-sprite.png">
+        <img id="offline-resources-2x" src="assets/default_200_percent/200-offline-sprite.png">
+        <template id="audio-resources">
+            <audio id="offline-sound-press" src="audio/1.adts">
+            <audio id="offline-sound-hit" src="audio/2.adts">
+			<audio id="offline-sound-reached" src="audio/3.acc">
+		</template>
+    </div>
+</div>
+<footer style="position: fixed; bottom: 0; right: 0; padding: 10px; background-color: #f8f8f800; width: 100%; text-align: right;">
+    <a style="color: #aeaeae; text-decoration: none;" href="https://beian.mps.gov.cn/#/query/webSearch?code=11011202001414" rel="noreferrer" target="_blank">京公网安备11011202001414</a>
+    <a style="color: #aeaeae; text-decoration: none;" href="https://beian.miit.gov.cn/">京ICP备2021009924号</a>
+</footer>
+</body>
+
+<script>
+    document.onkeydown = function(evt) {
+        evt = evt || window.event;
+        if (evt.keyCode === 32) {
+            y = $('#main-content').offset().top;
+            x = 100;
+            ciallo(x, y + 100);
+        }
+    };
+</script>
+<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+    let a_idx = 0;
+
+    $(function (){
+            const text = $("#ciallo-text").text();
+            $("#ciallo-text").empty();
+            $.each(text.split(''), function (index, char) {
+                const span = $("<span>").text(char);
+                span.css("animation-delay", `${Math.random() * 0.5}s`);
+                $("#ciallo-text").append(span);
+            });
+
+        $("body").click(function(e) {
+            ciallo(e.pageX, e.pageY)
+        });
+    })
+
+    function ciallo(x, y){
+        const a = new Array("Ciallo～(∠・ω< )⌒★", "Ciallo～(∠・ω< )⌒☆");
+        const $i = $("<span/>").text(a[a_idx]);
+        a_idx = (a_idx + 1) % a.length;
+        $i.css({
+            "z-index": 99999999999999999,
+            "top": y - 20,
+            "left": x,
+            "position": "absolute",
+            "font-weight": "bold",
+            "color": color16()
+        });
+        $("body").append($i);
+        $i.animate({
+                "top": y - 180,
+                "opacity": 0
+            },
+             2500,
+            function() {
+                $i.remove();
+            });
+    }
+
+    function color16(){
+        const r = Math.floor(Math.random()*256);
+        const g = Math.floor(Math.random()*256);
+        const b = Math.floor(Math.random()*256);
+        return `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+    }
+</script>
+</html>
